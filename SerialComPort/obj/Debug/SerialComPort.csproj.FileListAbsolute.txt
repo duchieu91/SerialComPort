@@ -1,0 +1,8 @@
+E:\CONGVIEC\VisualStudioProj\SerialComPort\SerialComPort\bin\Debug\SerialComPort.exe.config
+E:\CONGVIEC\VisualStudioProj\SerialComPort\SerialComPort\bin\Debug\SerialComPort.exe
+E:\CONGVIEC\VisualStudioProj\SerialComPort\SerialComPort\bin\Debug\SerialComPort.pdb
+E:\CONGVIEC\VisualStudioProj\SerialComPort\SerialComPort\obj\Debug\SerialComPort.Form1.resources
+E:\CONGVIEC\VisualStudioProj\SerialComPort\SerialComPort\obj\Debug\SerialComPort.Properties.Resources.resources
+E:\CONGVIEC\VisualStudioProj\SerialComPort\SerialComPort\obj\Debug\SerialComPort.csproj.GenerateResource.Cache
+E:\CONGVIEC\VisualStudioProj\SerialComPort\SerialComPort\obj\Debug\SerialComPort.exe
+E:\CONGVIEC\VisualStudioProj\SerialComPort\SerialComPort\obj\Debug\SerialComPort.pdb
