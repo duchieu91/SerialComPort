@@ -31,9 +31,13 @@ namespace SerialComFTDI
         // Allocate storage for device info list
         FTDI.FT_DEVICE_INFO_NODE[] ftdiDeviceList;
         #endregion
+        AutoResetEvent receivedDataEvent = new AutoResetEvent(false);
+        CancellationTokenSource cancellation = new CancellationTokenSource();  // should be declared in a broader scope
+        private delegate void SafeCallDelegate(string text);
         public FormFTDI()
         {
             InitializeComponent();
+            Controls.Add(txtBoxReceive); //require for correcting error crossthread
             Task.Run(() => ReceiveLoop());
         }
         private void FormFTDI_Load(object sender, EventArgs e)
@@ -80,13 +84,11 @@ namespace SerialComFTDI
 
                 }
             }
+            myFtdiDevice.SetEventNotification(FTDI.FT_EVENTS.FT_EVENT_RXCHAR, receivedDataEvent);
 
         }
         public void ReceiveLoop()
         {
-            var receivedDataEvent = new AutoResetEvent(false);
-            myFtdiDevice.SetEventNotification(FTDI.FT_EVENTS.FT_EVENT_RXCHAR, receivedDataEvent);
-            var cancellation = new CancellationTokenSource();  // should be declared in a broader scope
             while (!cancellation.IsCancellationRequested)
             {
                 receivedDataEvent.WaitOne();
@@ -246,13 +248,22 @@ namespace SerialComFTDI
 
 
 
-        private void ShowTheReceivedText(string strText)
+        private void ShowTheReceivedText(string text)
         {
-            if (strText.EndsWith("\r"))
+            if (text.EndsWith("\r"))
             {
-                txtBoxReceive.Text += strText + "\r\n";
+                text += text + "\r\n";
             }
-            else txtBoxReceive.Text += strText;
+
+            if (txtBoxReceive.InvokeRequired)
+            {
+                var d = new SafeCallDelegate(ShowTheReceivedText);
+                txtBoxReceive.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                txtBoxReceive.Text += text;
+            }
         }
 
         /// <summary>
